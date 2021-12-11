@@ -23,7 +23,6 @@ class Application {
         val forumService = ForumService(userName, password)
         if (!forumService.checkConnection()) {
             println("NE PROYDESH', TI NE ODNA IZ NAS!")
-            println("NE PROYDESH', TI NE ODNA IZ NAS!")
             println("Incorrect login or password")
             exitProcess(42)
         } else menuLevelFirst(forumService, scanner)

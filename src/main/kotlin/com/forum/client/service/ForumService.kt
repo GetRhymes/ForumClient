@@ -32,7 +32,7 @@ class ForumService(val userName: String, private val password: String) {
 
     //POST
     fun getAllMessageByTheme(packetMessageDTO: PacketMessageDTO): List<MessageModel>? {
-        val url = "$PREFIX$HOST$DOUBLE_DOT$PORT$BASE_URL$ALL_MESSAGES"
+        val url = "$PREFIX$HOST$DOUBLE_DOT$PORT$BASE_URL_FORUM$ALL_MESSAGES"
         val request = createAbstractPostRequest(packetMessageDTO, url)
         client.newCall(request).execute().use { response ->
             setupLastSeenDateTime(packetMessageDTO)
@@ -43,7 +43,7 @@ class ForumService(val userName: String, private val password: String) {
 
     //POST
     fun sendMessage(messageModelForTransfer: MessageModelDTO): MessageModel? {
-        val url = "$PREFIX$HOST$DOUBLE_DOT$PORT$BASE_URL$SEND_MESSAGE"
+        val url = "$PREFIX$HOST$DOUBLE_DOT$PORT$BASE_URL_USER$SEND_MESSAGE"
         val request = createAbstractPostRequest(messageModelForTransfer, url)
         client.newCall(request).execute().use { response ->
             val bytes = response.body!!.bytes()
@@ -55,7 +55,7 @@ class ForumService(val userName: String, private val password: String) {
     fun getNewMessageByTheme(packetMessageDTO: PacketMessageDTO): List<MessageModel>? {
         val lastSeenTimeLocal: LocalDateTime? = checkLastSeenDateTime(packetMessageDTO)
         packetMessageDTO.lastSeenTime = lastSeenTimeLocal?.toString() ?: LocalDateTime.MIN.toString()
-        val url = "$PREFIX$HOST$DOUBLE_DOT$PORT$BASE_URL$NEW_MESSAGE"
+        val url = "$PREFIX$HOST$DOUBLE_DOT$PORT$BASE_URL_FORUM$NEW_MESSAGE"
         val request = createAbstractPostRequest(packetMessageDTO, url)
         client.newCall(request).execute().use { response ->
             setupLastSeenDateTime(packetMessageDTO)
@@ -66,7 +66,7 @@ class ForumService(val userName: String, private val password: String) {
 
     //GET
     fun getAllThemes(): StructureForumModel {
-        val request = Request.Builder().url("$PREFIX$HOST$DOUBLE_DOT$PORT$BASE_URL$ALL_THEMES").build()
+        val request = Request.Builder().url("$PREFIX$HOST$DOUBLE_DOT$PORT$BASE_URL_FORUM$ALL_THEMES").build()
         client.newCall(request).execute().use { response ->
             val bytes = response.body!!.bytes()
             return StructureForumModel(objectMapper.readValue(bytes, object : TypeReference<List<MainTheme>>() {}))
@@ -75,7 +75,7 @@ class ForumService(val userName: String, private val password: String) {
 
     //GET
     fun getActiveUser(): List<ActiveUsers> {
-        val request = Request.Builder().url("$PREFIX$HOST$DOUBLE_DOT$PORT$BASE_URL$ACTIVE_USERS").build()
+        val request = Request.Builder().url("$PREFIX$HOST$DOUBLE_DOT$PORT$BASE_URL_FORUM$ACTIVE_USERS").build()
         client.newCall(request).execute().use { response ->
             val bytes = response.body!!.bytes()
             return objectMapper.readValue(bytes, object : TypeReference<List<ActiveUsers>>() {})
@@ -84,7 +84,7 @@ class ForumService(val userName: String, private val password: String) {
 
     //GET
     fun checkConnection(): Boolean {
-        val request = Request.Builder().url("$PREFIX$HOST$DOUBLE_DOT$PORT$BASE_URL$ALL_USERS").build()
+        val request = Request.Builder().url("$PREFIX$HOST$DOUBLE_DOT$PORT$BASE_URL_FORUM$ALL_USERS").build()
         client.newCall(request).execute().use { return it.code == 200 }
     }
 

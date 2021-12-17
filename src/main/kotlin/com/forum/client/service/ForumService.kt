@@ -62,7 +62,7 @@ class ForumService(val userName: String, private val password: String) {
         val lastSeenTimeLocal: LocalDateTime? = getActualLastSeenDateTime(packetMessageDTO)
         packetMessageDTO.lastSeenTime = lastSeenTimeLocal?.toString() ?: LocalDateTime.MIN.toString()
         val stringURL = URL(
-            "$domainName$BASE_URL_FORUM$ALL_MESSAGES" +
+            "$domainName$BASE_URL_FORUM$NEW_MESSAGE" +
                     "$PATH_SEP${packetMessageDTO.mainTheme}" +
                     "$PATH_SEP${packetMessageDTO.subTheme}"
         )
